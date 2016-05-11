@@ -23,5 +23,16 @@
   "bugs": {
     "url": "https://github.com/andrewstuart/ng-a11y/issues"
   },
-  "homepage": "https://github.com/andrewstuart/ng-a11y#readme"
+  "homepage": "https://github.com/andrewstuart/ng-a11y#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-ngdocs": "^0.2.13",
+    "gulp-uglify": "^1.5.3",
+    "karma": "^0.13.22",
+    "karma-coverage": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0"
+  }
 }
