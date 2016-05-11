@@ -1,0 +1,27 @@
+{
+  "name": "ng-a11y",
+  "version": "0.0.1",
+  "description": "An accessibility and UX library for Angular 1.5+",
+  "main": "dist/ng-a11y.js",
+  "scripts": {
+    "test": "karma start --single-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/andrewstuart/ng-a11y.git"
+  },
+  "keywords": [
+    "angular",
+    "accessibility",
+    "modal",
+    "widgets",
+    "user",
+    "experience"
+  ],
+  "author": "Andrew Stuart <andrew.stuart2@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewstuart/ng-a11y/issues"
+  },
+  "homepage": "https://github.com/andrewstuart/ng-a11y#readme"
+}
