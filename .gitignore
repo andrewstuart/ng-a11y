@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/bower,node
 
 ### Bower ###
@@ -46,4 +45,3 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-

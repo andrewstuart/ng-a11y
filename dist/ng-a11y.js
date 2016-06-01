@@ -1,4 +1,6 @@
-module.directive('a11yModal', function($window, $document, $compile) {
+(function(module) {
+
+module.directive('a11yModal', ["$window", "$document", "$compile", function($window, $document, $compile) {
     'use strict';
     /**
      * @ngdoc directive
@@ -185,4 +187,169 @@ module.directive('a11yModal', function($window, $document, $compile) {
             };
         }
     };
+}]);
+
+module.directive('a11yEsc', ["$window", function($window) {
+    /**
+     * @ngdoc directive
+     * @name ngPortalApp.directive:onEsc
+     * @param {Expression} onEsc An expression to execute once (and only
+     * once) when the escape button is pressed.
+     * @description Runs an expression on escape keyup.
+     * @restrict CA
+     */
+    return {
+        restrict: 'CA',
+        scope: {
+            onEsc: '&'
+        },
+        controller: ["$scope", function($scope) {
+            function handleEsc(e) {
+                if (e.keyCode === 27) {
+                    $scope.$apply(function() {
+                        // Call Handler
+                        $scope.onEsc({$event: e});
+
+                        // Remove self
+                        $window.removeEventListener('keyup', handleEsc);
+                    });
+                }
+            }
+
+            $window.addEventListener('keyup', handleEsc, true);
+        }]
+    };
+}]);
+
+module.directive('a11yCaptureTab', function() {
+    /**
+    * @ngdoc directive
+    * @name ngPortalApp.directive:upCaptureTab
+    * @description When present on the page, the tabbable elements between
+    * the selectors will have tab input captured.
+    */
+    return {
+        link: function($scope, iEle) {
+            var inputs, firstInput, lastInput, returnFocus;
+
+            returnFocus = angular.element(document.activeElement);
+
+            getInputs();
+
+            function captureTab(e) {
+                if (e.which === 9 && !iEle[0].contains(e.target)) {
+                    getInputs();
+                    firstInput.focus();
+                }
+            }
+
+            document.body.addEventListener('keydown', captureTab, true);
+            $scope.$on('$destroy', function() {
+                document.body.removeEventListener('keydown', captureTab);
+                returnFocus.focus();
+            });
+
+            // set focus on first input
+            firstInput.focus();
+
+            iEle[0].addEventListener('keydown', function(e) {
+                wrapIfNeeded(e);
+            }, true);
+
+            function getInputs() {
+                inputs = iEle.find('select, input, textarea, button, a');
+
+                if (inputs.filter) {
+                    inputs = inputs.filter(':visible');
+                }
+
+                firstInput = inputs.first();
+                lastInput = inputs.last();
+            }
+
+            // https://stackoverflow.com/questions/14572084/keep-tabbing-within-modal-pane-only
+            function wrapIfNeeded(e) {
+                getInputs();
+
+                if (lastInput[0] === e.target && e.which === 9 && !e.shiftKey) {
+                    e.preventDefault();
+                    firstInput.focus();
+                }
+                if (firstInput[0] === e.target && e.which === 9 && e.shiftKey) {
+                    e.preventDefault();
+                    lastInput.focus();
+                }
+            }
+        }
+    };
 });
+
+module.directive('withService', ["$injector", function($injector) {
+    /**
+     * @ngdoc directive
+     * @name ngPortalApp.directive:withService
+     * @param {String} withService The name of the service to inject. May be
+     * an expression "X as Y" in which case the X service will be exposed by
+     * the name Y.
+     * @description Injects a service into a new scope the DOM element.
+     * @scope
+     * @restrict A
+     * @example
+     * <example module="withServiceExample">
+     *   <file name="example.js">
+     *     angular.module('withServiceExample', ['ngPortalApp'])
+     *       .service('ExampleService', function() {
+     *         this.foo = 'foo';
+     *       }).service('ExampleServiceTwo', function() {
+     *         this.bar = 'bar';
+     *         this.baz = 'baz';
+     *       });
+     *   </file>
+     *   <file name="example.html">
+     *     <div>
+     *       <div with-service="ExampleService">
+     *         ExampleService.foo: {{ExampleService.foo}}
+     *       </div>
+     *       <div with-service="ExampleServiceTwo as es">
+     *         Now ExampleServiceTwo is aliased to es. es.bar: {{es.bar}}.
+     *       </div>
+     *       <div with-service="{es: 'ExampleService', es2: 'ExampleServiceTwo'}">
+     *         You can name multiple services too. es.foo: {{es.foo}}, es2.bar: {{es2.bar}}, es2.baz: {{es2.baz}}.
+     *       </div>
+     *     </div>
+     * 	 </file>
+     * </example>
+     */
+    return {
+        restrict: 'A',
+        scope: true,
+        link: function($scope, iEle, iAttrs) {
+            if (!iAttrs.withService) {
+                return;
+            }
+
+            if (iAttrs.withService.trim()[0] === '{') {
+                var kvPairs = $scope.$eval(iAttrs.withService);
+
+                _.forEach(kvPairs, function(v, k) {
+                    $scope[k] = $injector.get(v);
+                });
+                return;
+            } else if (iAttrs.withService.trim()[0] === '[') {
+                _.forEach($scope.$eval(iAttrs.withService), function(srv) {
+                    $scope[srv] = $injector.get(srv);
+                });
+                return;
+            }
+
+            var names = iAttrs.withService.split(' as ');
+
+            var srv = $injector.get(names[0]);
+            if (srv) {
+                $scope[names[1] || names[0]] = srv;
+            }
+        }
+    };
+}]);
+
+})(angular.module('ng-a11y', []));

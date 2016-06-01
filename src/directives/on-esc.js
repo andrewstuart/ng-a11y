@@ -1,6 +1,4 @@
-angular.module('ngPortalApp')
-.directive('onEsc', function($window) {
-
+module.directive('a11yEsc', function($window) {
     /**
      * @ngdoc directive
      * @name ngPortalApp.directive:onEsc
@@ -15,13 +13,13 @@ angular.module('ngPortalApp')
             onEsc: '&'
         },
         controller: function($scope) {
-            function handleEsc (e) {
-                if ( e.keyCode === 27 ) {
+            function handleEsc(e) {
+                if (e.keyCode === 27) {
                     $scope.$apply(function() {
-                        //Call Handler
+                        // Call Handler
                         $scope.onEsc({$event: e});
 
-                        //Remove self
+                        // Remove self
                         $window.removeEventListener('keyup', handleEsc);
                     });
                 }
