@@ -1,0 +1,86 @@
+<h1><code ng:non-bindable="">a11yModal</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">ng-a11y</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="ng-a11y-directive-page ng-a11y-directive-a11ymodal-page"><p>Appends a global hider with class &#39;a11yModal-hider&#39; (you must
+style it yourself, or use some preexisting style library; see example)
+and shows the content inside the <code>&lt;a11yModal&gt;</code> element.</p>
+<p>This a11yModal module will be A11Y-compliant <em>if</em> you properly implement an
+expression in the <code>modalHide</code> attribute which will cause <code>shown</code> to
+evaluate to <code>false</code>.</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;a11y-modal
+       shown="{Boolean}"
+       [modal-hide]="{Function}"
+       [modal-show]="{Function}"&gt;
+&lt;/a11y-modal&gt;</pre>
+as attribute<pre class="prettyprint linenums">&lt;ANY a11y-modal
+     shown="{Boolean}"
+     [modal-hide]="{Function}"
+     [modal-show]="{Function}"&gt;
+   ...
+&lt;/ANY&gt;</pre>
+<h3 id="usage_directive-info">Directive info</h3>
+<div class="directive-info"><ul><li>This directive creates new scope.</li>
+</ul>
+</div>
+<h4 id="usage_directive-info_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>shown</td><td><a href="" class="label type-hint type-hint-boolean">Boolean</a></td><td><div class="ng-a11y-directive-page ng-a11y-directive-a11ymodal-page"><p>Whether or not the a11yModal dialog should be hidden
+via the &quot;hidden&quot; class.  Implementation of this class is up to the
+consumer.</p>
+</div></td></tr><tr><td>[modalHide]</td><td><a href="" class="label type-hint type-hint-function">Function</a></td><td><div class="ng-a11y-directive-page ng-a11y-directive-a11ymodal-page"><p>An optional method to be called any time
+the a11yModal dialog is hidden by the user interacting with dialog-specific
+elements (e.g. clicking the backdrop, or &quot;esc&quot; key)</p>
+</div></td></tr><tr><td>[modalShow]</td><td><a href="" class="label type-hint type-hint-function">Function</a></td><td><div class="ng-a11y-directive-page ng-a11y-directive-a11ymodal-page"><p>An optional method to be called any time
+the a11yModal dialog is unhidden</p>
+</div></td></tr></tbody></table></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_hide">hide()</h3>
+<div class=""><div class="ng-a11y-directive-page ng-a11y-directive-a11ymodal-hide-page"><p><code>hide</code> is a method to hide the a11yModal</p>
+</div></div>
+</li>
+</ul>
+</div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="ng-a11y-directive-page ng-a11y-directive-a11ymodal-page"><h4 id="example_source">Source</h4>
+<div source-edit="ng-a11y" source-edit-deps="angular.js" source-edit-html="example.html" source-edit-css="example.css" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="example.html">
+<pre class="prettyprint linenums" ng-set-text="example.html"></pre>
+<script type="text/ng-template" id="example.html">
+  <button ng-click="show = !show">Toggle</button>
+  <a11y-modal modal-hide="show = !show" shown="show">
+    <h3 id="example_hello-world">Hello world!</h3>
+  </a11y-modal>
+</script>
+</div>
+<div class="tab-pane" title="example.css">
+<pre class="prettyprint linenums" ng-set-text="example.css"></pre>
+<style type="text/css" id="example.css">
+  .a11yModal-hider {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .a11yModal-content {
+    position: fixed;
+    height: 10em;
+    width: 20em;
+    top: calc(50% - 5em);
+    left: calc(50% - 10em);
+    background-color: white;
+    z-index: 1;
+    text-align: center;
+    vertical-align: center;
+  }
+</style>
+</div>
+</div><h4 id="example_hello-world_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="ng-a11y" ng-set-html="example.html" ng-eval-javascript=""></div>
+</div></div>
+</div>

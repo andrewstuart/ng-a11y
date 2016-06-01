@@ -1,0 +1,55 @@
+<h1><code ng:non-bindable="">withService</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">ng-a11y</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="ng-a11y-directive-page ng-a11y-directive-withservice-page"><p>Injects a service into a new scope the DOM element.</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as attribute<pre class="prettyprint linenums">&lt;ANY with-service="{String}"&gt;
+   ...
+&lt;/ANY&gt;</pre>
+<h3 id="usage_directive-info">Directive info</h3>
+<div class="directive-info"><ul><li>This directive creates new scope.</li>
+</ul>
+</div>
+<h4 id="usage_directive-info_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>withService</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="ng-a11y-directive-page ng-a11y-directive-withservice-page"><p>The name of the service to inject. May be
+an expression &quot;X as Y&quot; in which case the X service will be exposed by
+the name Y.</p>
+</div></td></tr></tbody></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="ng-a11y-directive-page ng-a11y-directive-withservice-page"><h4 id="example_source">Source</h4>
+<div source-edit="withServiceExample" source-edit-deps="angular.js example.js" source-edit-html="example.html" source-edit-css="" source-edit-js="example.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="example.html">
+<pre class="prettyprint linenums" ng-set-text="example.html"></pre>
+<script type="text/ng-template" id="example.html">
+  <div>
+    <div with-service="ExampleService">
+      ExampleService.foo: {{ExampleService.foo}}
+    </div>
+    <div with-service="ExampleServiceTwo as es">
+      Now ExampleServiceTwo is aliased to es. es.bar: {{es.bar}}.
+    </div>
+    <div with-service="{es: 'ExampleService', es2: 'ExampleServiceTwo'}">
+      You can name multiple services too. es.foo: {{es.foo}}, es2.bar: {{es2.bar}}, es2.baz: {{es2.baz}}.
+    </div>
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="example.js">
+<pre class="prettyprint linenums" ng-set-text="example.js"></pre>
+<script type="text/ng-template" id="example.js">
+  angular.module('withServiceExample', ['ng-a11y'])
+    .service('ExampleService', function() {
+      this.foo = 'foo';
+    }).service('ExampleServiceTwo', function() {
+      this.bar = 'bar';
+      this.baz = 'baz';
+    });
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="withServiceExample" ng-set-html="example.html" ng-eval-javascript="example.js"></div>
+</div></div>
+</div>
