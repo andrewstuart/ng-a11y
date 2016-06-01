@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')({camelize: true});
 var merge = require('merge-stream');
+var argv = require('yargs').argv;
 
 var distFolder = 'dist';
 var pkg = require('./package.json');
@@ -28,7 +29,23 @@ gulp.task('docs', ['build'], function() {
             this.emit('end');
         }))
         .pipe(gulp.dest('docs'));
-        // .pipe($.ghPages());
+});
+
+gulp.task('publish', ['default'], function() {
+    if (!argv.version) {
+        console.error('Missing --version flag');
+    }
+
+    var versions = gulp.src('./bower.json', './package.json')
+        .pipe($.bump({
+            type: argv.version
+        }))
+        .pipe(gulp.dest('./'));
+
+    var pages = gulp.src('docs/**/*')
+        .pipe($.ghPages());
+
+    return merge(versions, pages);
 });
 
 gulp.task('default', ['build', 'docs']);

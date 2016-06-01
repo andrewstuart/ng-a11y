@@ -45,8 +45,8 @@ module.directive('a11yModal', function($window, $document, $compile) {
      *     }
      *   </file>
      *   <file name="example.html">
-     *     <button ng-click="show = !show">Toggle</button>
-     *     <a11y-modal modal-hide="show = !show" shown="show">
+     *     <button ng-click="x.show = !x.show">Toggle</button>
+     *     <a11y-modal modal-hide="x.show = !x.show" shown="x.show">
      *       <h1>Hello world!</h1>
      *     </a11y-modal>
      * 	 </file>
@@ -103,7 +103,7 @@ module.directive('a11yModal', function($window, $document, $compile) {
                     iEle.remove();
 
                     var tmpl = angular.element(
-                        '<div class="a11yModal-content" tab-index="-1" on-esc="modalHide()" up-capture-tab></div>'
+                        '<div class="a11yModal-content" tab-index="-1" a11y-esc="modalHide()" a11y-capture-tab></div>'
                     );
 
                     if($scope.modalId) {
@@ -113,13 +113,23 @@ module.directive('a11yModal', function($window, $document, $compile) {
                         tmpl.attr('class', 'a11yModal-content ' + $scope.modalClass());
                     }
 
-                    modalHider.on('click', function(e) {
-                        if (e.target !== modalHider) {
+
+                    function handleClickEvents(e) {
+                        if (e.target !== modalHider[0]) {
                             return;
                         }
+                        e.preventDefault();
+                        e.stopPropagation();
+
                         if ($scope.modalHide) {
                             $scope.modalHide();
                         }
+                        modalHider[0].removeEventListener('click', handleClickEvents);
+                        $scope.$apply();
+                    }
+
+                    $scope.$on('$destroy', function() {
+                        modalHider[0].removeEventListener('click', handleClickEvents);
                     });
 
                     var childScope;
@@ -141,7 +151,7 @@ module.directive('a11yModal', function($window, $document, $compile) {
                         modalHider.detach();
 
                         // Show all elements at root again
-                        $document.find('body').children().each(function(i, ele) {
+                        angular.forEach($document.find('body').children(), function(ele) {
                             setAria(ele, true);
                         });
                         setVisibility(modalHider, false);
@@ -151,7 +161,7 @@ module.directive('a11yModal', function($window, $document, $compile) {
                         childScope = $scope.$new();
 
                         // Hide all elements at root
-                        $document.find('body').children().each(function(i, ele) {
+                        angular.forEach($document.find('body').children(), function(ele) {
                             setAria(ele, false);
                         });
 
@@ -172,6 +182,8 @@ module.directive('a11yModal', function($window, $document, $compile) {
                         if ($scope.modalShow) {
                             $scope.modalShow();
                         }
+
+                        modalHider[0].addEventListener('click', handleClickEvents);
                     };
 
                     $scope.$watch('shown', function(shown) {
