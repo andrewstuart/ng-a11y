@@ -31,15 +31,21 @@ gulp.task('docs', ['build'], function() {
         .pipe(gulp.dest('docs'));
 });
 
+var errNoTypeFlag = new Error('Missing --type flag');
+var errInvalidTypeFlag = new Error('Invalid --type flag');
+
 gulp.task('publish', ['default'], function() {
-    if (!argv.version) {
-        console.error('Missing --version flag');
+    if (!argv.type) {
+        throw errNoTypeFlag;
+    }
+    if (['major', 'minor', 'patch'].indexOf(argv.type) < 0) {
+        throw errInvalidTypeFlag;
     }
 
-    var versions = gulp.src('./bower.json', './package.json')
-        .pipe($.bump({
-            type: argv.version
-        }))
+    var versions = gulp.src(['bower.json', 'package.json'])
+        // .pipe($.bump({
+        //     type: argv.type
+        // }))
         .pipe(gulp.dest('./'));
 
     var pages = gulp.src('docs/**/*')
