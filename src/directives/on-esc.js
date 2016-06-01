@@ -2,7 +2,7 @@ module.directive('a11yEsc', function($window) {
     /**
      * @ngdoc directive
      * @name ng-a11y.directive:a11yEsc
-     * @param {Expression} a11yonEsc An expression to execute once (and only
+     * @param {Expression} a11yEsc An expression to execute once (and only
      * once) when the escape button is pressed.
      * @description Runs an expression on escape keyup.
      * @restrict CA
