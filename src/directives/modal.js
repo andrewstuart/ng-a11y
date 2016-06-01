@@ -2,7 +2,7 @@ module.directive('a11yModal', function($window, $document, $compile) {
     'use strict';
     /**
      * @ngdoc directive
-     * @name uni.directive:a11yModal
+     * @name ng-a11y.directive:a11yModal
      * @restrict EA
      * @scope
      * @param {Boolean} shown Whether or not the a11yModal dialog should be hidden
@@ -21,7 +21,7 @@ module.directive('a11yModal', function($window, $document, $compile) {
      * expression in the `modalHide` attribute which will cause `shown` to
      * evaluate to `false`.
      * @example
-     * <example module="uni">
+     * <example module="ng-a11y">
      *   <file name="example.css">
      *     .a11yModal-hider {
      *       position: fixed;
@@ -126,8 +126,8 @@ module.directive('a11yModal', function($window, $document, $compile) {
 
                     /**
                      * @ngdoc
-                     * @methodOf uni.directive:a11yModal
-                     * @name uni.directive:a11yModal#hide
+                     * @methodOf ng-a11y.directive:a11yModal
+                     * @name ng-a11y.directive:a11yModal#hide
                      * @description `hide` is a method to hide the a11yModal
                      */
 

@@ -4,7 +4,7 @@ module.directive('a11yModal', ["$window", "$document", "$compile", function($win
     'use strict';
     /**
      * @ngdoc directive
-     * @name uni.directive:a11yModal
+     * @name ng-a11y.directive:a11yModal
      * @restrict EA
      * @scope
      * @param {Boolean} shown Whether or not the a11yModal dialog should be hidden
@@ -23,7 +23,7 @@ module.directive('a11yModal', ["$window", "$document", "$compile", function($win
      * expression in the `modalHide` attribute which will cause `shown` to
      * evaluate to `false`.
      * @example
-     * <example module="uni">
+     * <example module="ng-a11y">
      *   <file name="example.css">
      *     .a11yModal-hider {
      *       position: fixed;
@@ -128,8 +128,8 @@ module.directive('a11yModal', ["$window", "$document", "$compile", function($win
 
                     /**
                      * @ngdoc
-                     * @methodOf uni.directive:a11yModal
-                     * @name uni.directive:a11yModal#hide
+                     * @methodOf ng-a11y.directive:a11yModal
+                     * @name ng-a11y.directive:a11yModal#hide
                      * @description `hide` is a method to hide the a11yModal
                      */
 
@@ -192,7 +192,7 @@ module.directive('a11yModal', ["$window", "$document", "$compile", function($win
 module.directive('a11yEsc', ["$window", function($window) {
     /**
      * @ngdoc directive
-     * @name ngPortalApp.directive:onEsc
+     * @name ng-a11y.directive:onEsc
      * @param {Expression} onEsc An expression to execute once (and only
      * once) when the escape button is pressed.
      * @description Runs an expression on escape keyup.
@@ -224,7 +224,7 @@ module.directive('a11yEsc', ["$window", function($window) {
 module.directive('a11yCaptureTab', function() {
     /**
     * @ngdoc directive
-    * @name ngPortalApp.directive:upCaptureTab
+    * @name ng-a11y.directive:upCaptureTab
     * @description When present on the page, the tabbable elements between
     * the selectors will have tab input captured.
     */
@@ -287,7 +287,7 @@ module.directive('a11yCaptureTab', function() {
 module.directive('withService', ["$injector", function($injector) {
     /**
      * @ngdoc directive
-     * @name ngPortalApp.directive:withService
+     * @name ng-a11y.directive:withService
      * @param {String} withService The name of the service to inject. May be
      * an expression "X as Y" in which case the X service will be exposed by
      * the name Y.
@@ -297,7 +297,7 @@ module.directive('withService', ["$injector", function($injector) {
      * @example
      * <example module="withServiceExample">
      *   <file name="example.js">
-     *     angular.module('withServiceExample', ['ngPortalApp'])
+     *     angular.module('withServiceExample', ['ng-a11y'])
      *       .service('ExampleService', function() {
      *         this.foo = 'foo';
      *       }).service('ExampleServiceTwo', function() {
@@ -324,6 +324,13 @@ module.directive('withService', ["$injector", function($injector) {
         restrict: 'A',
         scope: true,
         link: function($scope, iEle, iAttrs) {
+            // Quick lodash/underscore polyfill
+            var forEach = (typeof _ !== 'undefined') ? _.forEach : function(obj, cb) {
+                Object.keys(obj).forEach(function(k) {
+                    cb(obj[k], k);
+                });
+            };
+
             if (!iAttrs.withService) {
                 return;
             }
@@ -331,12 +338,12 @@ module.directive('withService', ["$injector", function($injector) {
             if (iAttrs.withService.trim()[0] === '{') {
                 var kvPairs = $scope.$eval(iAttrs.withService);
 
-                _.forEach(kvPairs, function(v, k) {
+                forEach(kvPairs, function(v, k) {
                     $scope[k] = $injector.get(v);
                 });
                 return;
             } else if (iAttrs.withService.trim()[0] === '[') {
-                _.forEach($scope.$eval(iAttrs.withService), function(srv) {
+                forEach($scope.$eval(iAttrs.withService), function(srv) {
                     $scope[srv] = $injector.get(srv);
                 });
                 return;

@@ -1,7 +1,7 @@
 module.directive('a11yCaptureTab', function() {
     /**
     * @ngdoc directive
-    * @name ngPortalApp.directive:upCaptureTab
+    * @name ng-a11y.directive:upCaptureTab
     * @description When present on the page, the tabbable elements between
     * the selectors will have tab input captured.
     */

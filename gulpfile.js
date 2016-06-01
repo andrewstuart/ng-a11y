@@ -17,4 +17,22 @@ gulp.task('build', function() {
     .pipe(gulp.dest(distFolder));
 });
 
-gulp.task('default', ['build']);
+gulp.task('docs', ['build'], function() {
+    return gulp.src('src/*/*.js')
+        .pipe($.ngdocs.process({
+            html5Mode: false,
+            title: 'ng-a11y library',
+            scripts: ['dist/' + pkg.name + '.js']
+        }).on('error', function(e) {
+            console.error('Error with ngdocs', e);
+            this.emit('end');
+        }))
+        .pipe(gulp.dest('docs'));
+        // .pipe($.ghPages());
+});
+
+gulp.task('default', ['build', 'docs']);
+
+gulp.task('watch', ['default'], function() {
+    gulp.watch('src/**/*', ['default']);
+});

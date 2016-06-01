@@ -1,7 +1,7 @@
 module.directive('withService', function($injector) {
     /**
      * @ngdoc directive
-     * @name ngPortalApp.directive:withService
+     * @name ng-a11y.directive:withService
      * @param {String} withService The name of the service to inject. May be
      * an expression "X as Y" in which case the X service will be exposed by
      * the name Y.
@@ -11,7 +11,7 @@ module.directive('withService', function($injector) {
      * @example
      * <example module="withServiceExample">
      *   <file name="example.js">
-     *     angular.module('withServiceExample', ['ngPortalApp'])
+     *     angular.module('withServiceExample', ['ng-a11y'])
      *       .service('ExampleService', function() {
      *         this.foo = 'foo';
      *       }).service('ExampleServiceTwo', function() {
@@ -38,6 +38,13 @@ module.directive('withService', function($injector) {
         restrict: 'A',
         scope: true,
         link: function($scope, iEle, iAttrs) {
+            // Quick lodash/underscore polyfill
+            var forEach = (typeof _ !== 'undefined') ? _.forEach : function(obj, cb) {
+                Object.keys(obj).forEach(function(k) {
+                    cb(obj[k], k);
+                });
+            };
+
             if (!iAttrs.withService) {
                 return;
             }
@@ -45,12 +52,12 @@ module.directive('withService', function($injector) {
             if (iAttrs.withService.trim()[0] === '{') {
                 var kvPairs = $scope.$eval(iAttrs.withService);
 
-                _.forEach(kvPairs, function(v, k) {
+                forEach(kvPairs, function(v, k) {
                     $scope[k] = $injector.get(v);
                 });
                 return;
             } else if (iAttrs.withService.trim()[0] === '[') {
-                _.forEach($scope.$eval(iAttrs.withService), function(srv) {
+                forEach($scope.$eval(iAttrs.withService), function(srv) {
                     $scope[srv] = $injector.get(srv);
                 });
                 return;
