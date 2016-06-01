@@ -1,0 +1,49 @@
+<h1><code ng:non-bindable="">a11yCaptureTab</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">ng-a11y</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="ng-a11y-directive-page ng-a11y-directive-a11ycapturetab-page"><p>When present on the page, the tabbable elements between
+the selectors will have tab input captured.</p>
+</div></div>
+<h2 id="usage">Usage</h2>
+<div class="usage">as attribute<pre class="prettyprint linenums">&lt;ANY a11y-capture-tab
+     capture-immediate="{Expression}"
+     force-capture="{Expression}"&gt;
+   ...
+&lt;/ANY&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>captureImmediate</td><td><a href="" class="label type-hint type-hint-expression">Expression</a></td><td><div class="ng-a11y-directive-page ng-a11y-directive-a11ycapturetab-page"><p>If the expression value is truthy,
+then upon the directive loading, focus will be triggered.</p>
+</div></td></tr><tr><td>forceCapture</td><td><a href="" class="label type-hint type-hint-expression">Expression</a></td><td><div class="ng-a11y-directive-page ng-a11y-directive-a11ycapturetab-page"><p>If the expression value is truthy, then
+each tab anywhere within the document will trigger a focus to the first
+element.</p>
+</div></td></tr></tbody></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="ng-a11y-directive-page ng-a11y-directive-a11ycapturetab-page"><h4 id="example_source">Source</h4>
+<div source-edit="captureTab" source-edit-deps="angular.js example.js" source-edit-html="example.html" source-edit-css="" source-edit-js="example.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="example.html">
+<pre class="prettyprint linenums" ng-set-text="example.html"></pre>
+<script type="text/ng-template" id="example.html">
+  <section>
+    <header>Non-captured</header>
+    <input id="one" type="text"></input>
+  </section>
+  <section a11y-capture-tab capture-immediate="true">
+    <header>Captured</header>
+    <input id="two" type="text"></input>
+    <input id="three" type="number"></input>
+    <button id="four" type="button">OK</button>
+  </section>
+</script>
+</div>
+<div class="tab-pane" title="example.js">
+<pre class="prettyprint linenums" ng-set-text="example.js"></pre>
+<script type="text/ng-template" id="example.js">
+  angular.module('captureTab', ['ng-a11y']);
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="captureTab" ng-set-html="example.html" ng-eval-javascript="example.js"></div>
+</div></div>
+</div>
