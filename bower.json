@@ -1,5 +1,5 @@
 {
-  "name": "ng-a11y",
+  "name": "angular-a11y",
   "description": "An accessibility and UX library for Angular 1.5+",
   "main": "dist/ng-a11y.js",
   "authors": [
